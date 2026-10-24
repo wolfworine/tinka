@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tinka Estadística</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-inner">
+      <div>
+        <h1>Tinka Estadística</h1>
+        <p class="sub" id="estado">Cargando modelo…</p>
+      </div>
+      <button id="btn-actualizar" class="btn-sec" type="button">↻ Actualizar datos</button>
+    </div>
+    <nav class="wrap tabs" id="tabs" role="tablist"></nav>
+  </header>
+
+  <main class="wrap">
+    <pre id="log" class="log" hidden></pre>
+
+    <section class="card hero">
+      <div class="controles">
+        <label>Jugadas
+          <select id="cantidad">
+            <option>1</option><option>3</option><option>5</option><option>10</option>
+          </select>
+        </label>
+        <label>Estrategia
+          <select id="modo">
+            <option value="equilibrado">Equilibrado (frecuencia + calientes + atrasados)</option>
+            <option value="optimo">Óptimo según backtest</option>
+            <option value="red_neuronal">Red neuronal LSTM</option>
+            <option value="frecuentes">Más frecuentes de la historia</option>
+            <option value="calientes">Calientes (recientes)</option>
+            <option value="atrasados">Atrasados (“les toca”)</option>
+            <option value="azar">Azar puro</option>
+          </select>
+        </label>
+        <label>Afinidad mínima
+          <select id="minimo">
+            <option value="0">Sin mínimo</option>
+            <option value="80">80% o más</option>
+            <option value="90" selected>90% o más</option>
+            <option value="95">95% o más</option>
+            <option value="99">99% o más</option>
+          </select>
+        </label>
+        <label class="check"><input type="checkbox" id="anti" checked> Evitar combinaciones populares</label>
+      </div>
+      <button id="btn-generar" class="btn-main" type="button">🎲 Generar números</button>
+      <div id="resultados" class="resultados"></div>
+    </section>
+
+    <section class="grid2">
+      <div class="card">
+        <h2>¿Qué tan bueno es cada estrategia?</h2>
+        <div id="backtest"></div>
+      </div>
+      <div class="card">
+        <h2>Últimos sorteos</h2>
+        <div id="ultimos" class="ultimos"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Probabilidad por número (estrategia seleccionada)</h2>
+      <p class="nota">Barra = probabilidad estimada de salir en el próximo sorteo. La línea punteada es el azar puro (k/N). Pasa el cursor para ver frecuencia y atraso.</p>
+      <div id="grafico" class="grafico"></div>
+      <div class="leyenda"><span class="sw hot"></span>sobre el azar <span class="sw cold"></span>bajo el azar</div>
+    </section>
+
+    <section class="card">
+      <h2>Patrones históricos que usa el filtro</h2>
+      <div id="patrones" class="patrones"></div>
+    </section>
+
+    <section class="card info">
+      <h2>Juegos de Intralot / La Tinka</h2>
+      <div class="juegos">
+        <article>
+          <h3>La Tinka</h3>
+          <p>Eliges 6 números. Sorteos <b>miércoles y domingo</b> a las 10:50 p.m. (cierre 9:50 p.m.). Se sortea además la <b>Boliyapa</b>: una 7.ª bolilla que no eliges, se compara con tus mismos 6 números y mejora los premios de 2 a 5 aciertos (no completa el pozo de 6) y el <b>Sí o Sí</b> (jugada adicional con premio asegurado). Pozo desde S/ 1 millón y acumulable.</p>
+        </article>
+        <article>
+          <h3>Kábala</h3>
+          <p>Eliges 6 números. Sorteos <b>martes, jueves y sábado</b>. Incluye el pozo Buenazo y la opción <b>Chau Chamba</b> (renta mensual). Más barata que la Tinka y con menos combinaciones.</p>
+        </article>
+        <article>
+          <h3>Gana Diario</h3>
+          <p>El juego “de 5 números” que buscabas: eliges <b>5 números</b> y hay <b>sorteo todos los días</b> (8:30 p.m. aprox). Es el de menor cantidad de combinaciones, así que es el más “fácil” de los tres.</p>
+        </article>
+        <article>
+          <h3>Otros</h3>
+          <p>Intralot también opera Kinelo, Raspaditas y apuestas deportivas (Te Apuesto, Ganagol). No se incluyen porque no son sorteos de números elegidos.</p>
+        </article>
+      </div>
+      <p class="nota" id="rangos"></p>
+      <p class="nota">Horarios, precios y premios pueden cambiar: verifica siempre en los canales oficiales. Datos: tinkaresultados.com (sitio independiente) y, para la Tinka desde 1994, el repositorio público github.com/jcchg/tinka-sorteos.</p>
+    </section>
+
+    <section class="card aviso">
+      <h2>Lectura honesta</h2>
+      <p>Los sorteos usan bolillas físicas y cada combinación tiene exactamente la misma probabilidad. Ningún algoritmo puede predecir el resultado: el modelo solo reordena números según su historial, y el backtest de arriba muestra cuánto (o cuán poco) eso se diferencia del azar. Lo único que sí tiene efecto real es <b>evitar combinaciones populares</b> (fechas, secuencias, patrones): no aumenta la probabilidad de ganar, pero reduce la probabilidad de <b>compartir</b> el pozo si ganas. Juega con responsabilidad y solo lo que estés dispuesto a perder.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
